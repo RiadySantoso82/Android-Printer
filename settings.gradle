@@ -1,0 +1,3 @@
+include ':printerlib'
+include ':app'
+rootProject.name = "Printer"
