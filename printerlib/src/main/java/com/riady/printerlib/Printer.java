@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.riady.printerlib.Command.Command;
 import com.riady.printerlib.Command.PrinterCommand;
 import com.riady.printerlib.Service.BluetoothService;
 
@@ -23,6 +24,8 @@ import static com.riady.printerlib.Service.BluetoothService.TOAST;
 public class Printer {
     private Context context;
     private String mConnectedDeviceName = null;
+    public static int ALIGN_LEFT = 0;
+    public static int ALIGN_CENTER = 1;
 
     public Printer(Context context) {
         this.context = context;
@@ -52,8 +55,16 @@ public class Printer {
         }
     }
 
-    public void SendDataString(String content){
-        PrinterCommand.SendDataString(context, content);
+    public void SendDataString(String content, Integer align){
+        if (align == ALIGN_CENTER) {
+            Command.ESC_Align[2] = 0x01;
+            PrinterCommand.SendDataByte(context, Command.ESC_Align);
+            PrinterCommand.SendDataString(context, content);
+            Command.ESC_Align[2] = 0x00;
+            PrinterCommand.SendDataByte(context, Command.ESC_Align);
+        } else {
+            PrinterCommand.SendDataString(context, content);
+        }
     }
 
     public void SendDataByte(byte[] content){
