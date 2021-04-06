@@ -3,6 +3,7 @@ package com.riady.printerlib;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
@@ -73,6 +74,11 @@ public class Printer {
 
     public void PrintPDF147Code(String content,Integer width, Integer height) {
         PrinterCommand.PrintPDF147Code(context,content,width,height);
+    }
+
+    public void PrintBMP(Bitmap mBitmap, int width) {
+        byte[] data = PrinterCommand.POS_PrintBMP(mBitmap, width,0,0);
+        PrinterCommand.SendDataByte(context,data);
     }
 
     @SuppressLint("HandlerLeak")
