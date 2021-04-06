@@ -74,7 +74,7 @@ public class PrinterCommand {
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
             bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-            byte[] data = POS_PrintBMP(bitmap, sizeW, 0, 0);
+            byte[] data = POS_PrintBarcode(bitmap, sizeW, sizeH, 0, 0);
             SendDataByte(context,data);
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
@@ -108,6 +108,25 @@ public class PrinterCommand {
         } else {
             data = concatAll(gsExclamationMark, escT, Command.FS_dot, escM, pbString);
         }
+        return data;
+    }
+
+    public static byte[] POS_PrintBarcode(Bitmap mBitmap, int nWidth, int nHeight, int nMode, int leftPadding) {
+        int width = ((nWidth + 7) / 8) * 8;
+        int height = ((nHeight + 7) / 8) * 8;
+        int left = leftPadding == 0 ? 0 : ((leftPadding+7) / 8) * 8;
+
+        Bitmap rszBitmap = mBitmap;
+        if (mBitmap.getWidth() != width) {
+            rszBitmap = Bitmap.createScaledBitmap(mBitmap, width, height, true);
+        }
+        Bitmap grayBitmap = toGrayscale(rszBitmap);
+        if(left>0){
+            grayBitmap = pad(grayBitmap,left,0);
+        }
+        byte[] dithered = thresholdToBWPic(grayBitmap);
+        byte[] data = eachLinePixToCmd(dithered, width+left, nMode);
+
         return data;
     }
 
