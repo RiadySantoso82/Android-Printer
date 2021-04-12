@@ -72,6 +72,10 @@ public class Printer {
         PrinterCommand.SendDataByte(context, content);
     }
 
+    public void PrintQRCode(String content, Integer width) {
+        PrinterCommand.PrintQRCode(context, content, width, 1);
+    }
+
     public void PrintPDF147Code(String content,Integer width, Integer height) {
         PrinterCommand.PrintPDF147Code(context,content,width,height);
     }

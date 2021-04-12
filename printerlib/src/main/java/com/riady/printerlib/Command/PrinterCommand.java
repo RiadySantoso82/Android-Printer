@@ -13,6 +13,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.riady.printerlib.Common;
 import com.riady.printerlib.Service.BluetoothService;
 
@@ -46,6 +48,46 @@ public class PrinterCommand {
             return;
         }
         Common.mService.write(data);
+    }
+
+    public static void PrintQRCode(Context context, String content, int size, int correctionLevel) {
+        if (Common.mService.getState() != BluetoothService.STATE_CONNECTED) {
+            Toast.makeText(context, "not Connected To Printer", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
+        try {
+            Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
+            hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.forBits(correctionLevel));
+            BitMatrix bitMatrix = new QRCodeWriter().encode(content,
+                    BarcodeFormat.QR_CODE, size, size, hints);
+
+            int width = bitMatrix.getWidth();
+            int height = bitMatrix.getHeight();
+
+            int[] pixels = new int[width * height];
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (bitMatrix.get(x, y)) {
+                        pixels[y * width + x] = 0xff000000;
+                    } else {
+                        pixels[y * width + x] = 0xffffffff;
+                    }
+                }
+            }
+
+            Bitmap bitmap = Bitmap.createBitmap(width, height,
+                    Bitmap.Config.ARGB_8888);
+
+            bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+            byte[] data = POS_PrintBMP(bitmap, size, 0, 0);
+            SendDataByte(context,data);
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage());
+        }
     }
 
     public static void PrintPDF147Code(Context context, String content, int sizeW, int sizeH) {
