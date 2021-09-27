@@ -265,6 +265,8 @@ public class BluetoothService implements Thread.UncaughtExceptionHandler {
                     socket = mmServerSocket.accept();
                 } catch (IOException e) {
                     Log.e(TAG, "accept() failed", e);
+                    Toast.makeText(myContext,"Bluetooth Address Not Found",Toast.LENGTH_LONG).show();
+                    cancel();
                     break;
                 }
 
