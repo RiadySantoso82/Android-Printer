@@ -93,12 +93,14 @@ public class Printer {
                 case MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
                         case BluetoothService.STATE_CONNECTED:
-                            Toast.makeText(context,"connected: " + mConnectedDeviceName,Toast.LENGTH_LONG).show();
+                            Toast.makeText(context,"connected to: " + mConnectedDeviceName,Toast.LENGTH_LONG).show();
                             break;
                         case BluetoothService.STATE_CONNECTING:
-                            Toast.makeText(context,"connecting ...",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context,"Bluetooth connecting ...",Toast.LENGTH_LONG).show();
                             break;
                         case BluetoothService.STATE_LISTEN:
+                            Toast.makeText(context,"Bluetooth listening ....",Toast.LENGTH_LONG).show();
+                            break;
                         case BluetoothService.STATE_NONE:
                             Toast.makeText(context,"not connected printer",Toast.LENGTH_LONG).show();
                             break;
