@@ -1,5 +1,6 @@
 package com.riady.printerlib.Service;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -9,13 +10,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.UUID;
 
-public class BluetoothService {
+public class BluetoothService implements Thread.UncaughtExceptionHandler {
     // Message types sent from the BluetoothService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_READ = 2;
@@ -24,6 +30,8 @@ public class BluetoothService {
     public static final int MESSAGE_TOAST = 5;
     public static final int MESSAGE_CONNECTION_LOST = 6;
     public static final int MESSAGE_UNABLE_CONNECT = 7;
+
+    private Context myContext;
 
     // Key names received from the BluetoothService Handler
     public static final String DEVICE_NAME = "device_name";
@@ -65,6 +73,14 @@ public class BluetoothService {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         mHandler = handler;
+        myContext = context;
+    }
+
+    @Override
+    public void uncaughtException(@NonNull Thread thread, @NonNull Throwable throwable) {
+        StringWriter stackTrace = new StringWriter();
+        throwable.printStackTrace(new PrintWriter(stackTrace));
+        Toast.makeText(myContext, stackTrace.toString(), Toast.LENGTH_LONG).show();
     }
 
     /**
