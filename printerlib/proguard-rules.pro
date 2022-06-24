@@ -12,6 +12,14 @@
 #   public *;
 #}
 
+-keep class com.riady.printerlib.Activity.DeviceListActivity
+-keepclassmembers class com.riady.printerlib.Activity.DeviceListActivity {
+    public *;
+}
+-keepclassmembers class com.riady.printerlib.Printer {
+    public *;
+}
+
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
