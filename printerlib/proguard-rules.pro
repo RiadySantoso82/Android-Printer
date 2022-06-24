@@ -16,9 +16,11 @@
 -keepclassmembers class com.riady.printerlib.Activity.DeviceListActivity {
     public *;
 }
+-keep class com.riady.printerlib.Printer
 -keepclassmembers class com.riady.printerlib.Printer {
     public *;
 }
+-keep class com.riady.printerlib.Service.BluetoothService
 -keepclassmembers class com.riady.printerlib.Service.BluetoothService {
     public *;
 }
