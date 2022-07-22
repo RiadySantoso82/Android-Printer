@@ -141,8 +141,12 @@ public class BluetoothService implements Thread.UncaughtExceptionHandler {
 
             // Start the thread to connect with the given device
             mConnectThread = new ConnectThread(device);
-            mConnectThread.start();
-            setState(STATE_CONNECTING);
+            if (!mConnectThread.isAlive()) {
+                mConnectThread.start();
+                setState(STATE_CONNECTING);
+            } else {
+                connectionFailed();
+            }
         } else {
             connectionFailed();
         }
