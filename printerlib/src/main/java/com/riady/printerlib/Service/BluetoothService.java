@@ -356,7 +356,11 @@ public class BluetoothService implements Thread.UncaughtExceptionHandler {
                     Log.e(TAG, "unable to close() socket during connection failure", e2);
                 }
                 // Start the service over to restart listening mode
-                start();
+                if (!isAlive()) {
+                    start();
+                } else {
+                    cancel();
+                }
                 return;
             }
 
