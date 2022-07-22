@@ -45,7 +45,9 @@ public class Printer {
     }
 
     public void Connect(BluetoothDevice device){
-        Common.mService.connect(device);
+        if (device != null) {
+            Common.mService.connect(device);
+        }
     }
 
     public int GetState(){
