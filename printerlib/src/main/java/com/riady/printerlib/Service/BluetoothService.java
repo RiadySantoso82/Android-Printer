@@ -438,7 +438,11 @@ public class BluetoothService implements Thread.UncaughtExceptionHandler {
                         {
                             Log.e(TAG, "disconnected");
                             // Start the service over to restart listening mode
-                            start();
+                            if (!isAlive()) {
+                                start();
+                            } else {
+                                cancel();
+                            }
                         }
                         break;
                     }
