@@ -455,7 +455,11 @@ public class BluetoothService implements Thread.UncaughtExceptionHandler {
                     if(mState != STATE_NONE)
                     {
                         // Start the service over to restart listening mode
-                        start();
+                        if (!isAlive()) {
+                            start();
+                        } else {
+                            cancel();
+                        }
                     }
                     break;
                 }
