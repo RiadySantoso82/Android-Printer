@@ -60,6 +60,7 @@ public class BluetoothService implements Thread.UncaughtExceptionHandler {
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
+    public static final int STATE_CONNECTION_LOST = 6; // Connection Lost
 
     public static String ErrorMessage = "No_Error_Message";
 
@@ -231,6 +232,7 @@ public class BluetoothService implements Thread.UncaughtExceptionHandler {
     private void connectionLost() {
         //setState(STATE_LISTEN);
         // Send a failure message back to the Activity
+        setState(STATE_CONNECTION_LOST);
         Message msg = mHandler.obtainMessage(MESSAGE_TOAST);
         Bundle bundle = new Bundle();
         bundle.putString(TOAST, "Device connection was lost");
