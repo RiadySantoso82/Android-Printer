@@ -159,9 +159,10 @@ public class PrinterCommand {
         int left = leftPadding == 0 ? 0 : ((leftPadding+7) / 8) * 8;
 
         Bitmap rszBitmap = mBitmap;
-        if (mBitmap.getWidth() != width) {
-            rszBitmap = Bitmap.createScaledBitmap(mBitmap, width, height, true);
-        }
+//        if (mBitmap.getWidth() != width) {
+//            rszBitmap = Bitmap.createScaledBitmap(mBitmap, width, height, true);
+//        }
+        rszBitmap = Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth(), height, true);
         Bitmap grayBitmap = toGrayscale(rszBitmap);
         if(left>0){
             grayBitmap = pad(grayBitmap,left,0);
