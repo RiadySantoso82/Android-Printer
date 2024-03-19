@@ -154,8 +154,8 @@ public class PrinterCommand {
     }
 
     public static byte[] POS_PrintBarcode(Bitmap mBitmap, int nWidth, int nHeight, int nMode, int leftPadding) {
-        int width = ((nWidth + 7) / 8) * 8;
-        int height = ((nHeight + 7) / 8) * 8;
+        int width = leftPadding == 0 ? (nWidth / 8) * 8 : ((nWidth+7) / 8) * 8;
+        int height = leftPadding == 0 ? (nHeight/ 8) * 8 : ((nHeight + 7) / 8) * 8;
         int left = leftPadding == 0 ? 0 : ((leftPadding+7) / 8) * 8;
 
         Bitmap rszBitmap = mBitmap;
