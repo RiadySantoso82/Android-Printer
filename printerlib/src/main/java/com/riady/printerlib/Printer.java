@@ -99,6 +99,11 @@ public class Printer {
         PrinterCommand.SendDataByte(context,data);
     }
 
+    public void PrintBMP_BW(Bitmap mBitmap, int width) {
+        byte[] data = PrinterCommand.POS_PrintBMP_BW(mBitmap, width,0,0);
+        PrinterCommand.SendDataByte(context,data);
+    }
+
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override

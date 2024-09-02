@@ -203,6 +203,21 @@ public class PrinterCommand {
         return data;
     }
 
+    public static byte[] POS_PrintBMP_BW(Bitmap mBitmap, int nWidth, int nMode, int leftPadding) {
+        int width = ((nWidth + 7) / 8) * 8;
+        int height = mBitmap.getHeight() * width / mBitmap.getWidth();
+        height = ((height + 7) / 8) * 8;
+        int left = leftPadding == 0 ? 0 : ((leftPadding+7) / 8) * 8;
+
+        Bitmap rszBitmap = mBitmap;
+        if (mBitmap.getWidth() != width) {
+            rszBitmap = Bitmap.createScaledBitmap(mBitmap, width, height, true);
+        }        
+        byte[] data = eachLinePixToCmd(rszBitmap, width+left, nMode);
+
+        return data;
+    }
+
     public static Bitmap toGrayscale(Bitmap bmpOriginal) {
         int width, height;
         height = bmpOriginal.getHeight();
