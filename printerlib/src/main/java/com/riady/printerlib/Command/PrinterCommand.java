@@ -212,8 +212,9 @@ public class PrinterCommand {
         Bitmap rszBitmap = mBitmap;
         if (mBitmap.getWidth() != width) {
             rszBitmap = Bitmap.createScaledBitmap(mBitmap, width, height, true);
-        }        
-        byte[] data = eachLinePixToCmd(rszBitmap, width+left, nMode);
+        }
+        byte[] dithered = thresholdToBWPic(rszBitmap);        
+        byte[] data = eachLinePixToCmd(dithered, width+left, nMode);
 
         return data;
     }
