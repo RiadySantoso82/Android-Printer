@@ -146,8 +146,8 @@ public class PrinterCommand {
             return null;
         }
 
-        byte[] intToWidth = {0x00, 0x10, 0x20, 0x30};
-        byte[] intToHeight = {0x00, 0x01, 0x02, 0x03};
+        byte[] intToWidth = {0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80};
+        byte[] intToHeight = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
         byte[] gsExclamationMark = Arrays.copyOf(Command.GS_ExclamationMark, Command.GS_ExclamationMark.length);
         gsExclamationMark[2] = (byte) (intToWidth[nWidthTimes] + intToHeight[nHeightTimes]);
         byte[] escT = Arrays.copyOf(Command.ESC_t, Command.ESC_t.length);
