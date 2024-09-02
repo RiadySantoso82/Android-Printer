@@ -70,6 +70,18 @@ public class Printer {
         }
     }
 
+    public void SendDataString(String content, Integer align, Integer width, Integer height, Integer font_type){
+        if (align == ALIGN_CENTER) {
+            Command.ESC_Align[2] = 0x01;
+            PrinterCommand.SendDataByte(context, Command.ESC_Align);
+            PrinterCommand.SendDataString(context, content, width, height, font_type);
+            Command.ESC_Align[2] = 0x00;
+            PrinterCommand.SendDataByte(context, Command.ESC_Align);
+        } else {
+            PrinterCommand.SendDataString(context, content, width, height, font_type);
+        }
+    }
+
     public void SendDataByte(byte[] content){
         PrinterCommand.SendDataByte(context, content);
     }
