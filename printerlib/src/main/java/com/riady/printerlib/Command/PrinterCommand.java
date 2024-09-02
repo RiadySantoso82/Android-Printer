@@ -41,6 +41,16 @@ public class PrinterCommand {
         SendDataByte(context, bytes);
     }
 
+    public static void SendDataString(Context context, String content, Integer width, Integer height, Integer font_type) {
+        if (Common.mService.getState() != BluetoothService.STATE_CONNECTED) {
+            Toast.makeText(context, "Printer not Connected", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+        byte[] bytes = POS_Print_Text(content,"GBK",0,width,height,font_type);
+        SendDataByte(context, bytes);
+    }
+
     public static void SendDataByte(Context context,byte[] data) {
         if (Common.mService.getState() != BluetoothService.STATE_CONNECTED) {
             Toast.makeText(context, "not Connected To Printer", Toast.LENGTH_SHORT)
